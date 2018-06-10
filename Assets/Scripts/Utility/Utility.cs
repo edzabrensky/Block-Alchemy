@@ -14,6 +14,16 @@ public static class Utility
         return component;
     }
 
+    public static T GetSafeComponent<T>(Transform transform)
+    {
+        T component = transform.GetComponent<T>();
+        if (component == null)
+        {
+            Debug.LogError("Component requested is null!");
+        }
+        return component;
+    }
+
     public static Coroutine Invoke(this MonoBehaviour monoBehaviour, Action action, float time)
     {
         return monoBehaviour.StartCoroutine(InvokeImpl(action, time));
