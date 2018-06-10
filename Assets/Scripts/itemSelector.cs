@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class itemSelector : MonoBehaviour {
+public class ItemSelector : MonoBehaviour {
     public float rotationSpeed;
     LineRenderer line;
     bool grabbedItem;
