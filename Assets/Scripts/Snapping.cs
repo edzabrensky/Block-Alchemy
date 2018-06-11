@@ -19,10 +19,16 @@ public class Snapping : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         other.gameObject.GetComponent<SphereCollider>().isTrigger = false;
-        GetComponent<SphereCollider>().isTrigger = false;
-        if (attach && !JointUsed && !other.gameObject.GetComponent<Snapping>().JointUsed)
+        GetComponent<SphereCollider>().isTrigger = true;
+
+        //Debug.Log("entered!");*/
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (attach && !JointUsed && !other.gameObject.GetComponent<Snapping>().JointUsed && GetComponent<SphereCollider>().isTrigger == true)
         {
-            if(other.gameObject.transform.parent.transform.parent != null)
+            if (other.gameObject.transform.parent.transform.parent != null)
             {
                 //transform.position = other.bounds.center;
                 obj = other.gameObject.transform.root.gameObject;
@@ -54,9 +60,7 @@ public class Snapping : MonoBehaviour
             }
             JointUsed = true;
         }
-        Debug.Log("entered!");
     }
-
     // Update is called once per frame
     void Update()
     {
