@@ -64,46 +64,47 @@ public class Snapping : MonoBehaviour
         }
     }
 
-    Vector3 validPos()
-    {
-        List<Vector3> validPos;
-        for (int i = 0; i < 6; ++i)
-        {
-            if (i < 2)
-            {
-                if(i % 2== 0)
-                {
-                    validPos.Insert(transform.position + new Vector3()
-                }
-                else
-                {
+    //Vector3 validPos()
+    //{
+    //    List<Vector3> validPos;
+    //    for (int i = 0; i < 6; ++i)
+    //    {
+    //        if (i < 2)
+    //        {
+    //            if (i % 2 == 0)
+    //            {
+    //                validPos.Insert(transform.position + new Vector3();
+    //            }
+    //            else
+    //            {
 
-                }
-                
-            }
-            else if (i < 4)
-            {
-                if (i % 2 == 0)
-                {
+    //            }
 
-                }
-                else
-                {
+    //        }
+    //        else if (i < 4)
+    //        {
+    //            if (i % 2 == 0)
+    //            {
 
-                }
-            }
-            else if(i < 6)
-            {
-                if (i % 2 == 0)
-                {
+    //            }
+    //            else
+    //            {
 
-                }
-                else
-                {
+    //            }
+    //        }
+    //        else if (i < 6)
+    //        {
+    //            if (i % 2 == 0)
+    //            {
 
-                }
-            }
-    }
+    //            }
+    //            else
+    //            {
+
+    //            }
+    //        }
+    //    }
+    //}
     // Update is called once per frame
     void Update()
     {
