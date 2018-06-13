@@ -11,7 +11,7 @@ public class Snapping : MonoBehaviour
     bool found = false;
     Vector3 center;
     public bool JointUsed = false;
-
+    Vector3 dist;
 
     List<Vector3> validRotation;
     enum cubeStates { corner1, corner2, corner3, corner4 };
@@ -60,7 +60,9 @@ public class Snapping : MonoBehaviour
                 //center = obj.transform.position;
                 //transform.parent.transform.SetPositionAndRotation(center + new Vector3(0f, 0f, -0.5f), obj.transform.rotation);
             }
+            Debug.Log(obj.transform.parent.GetComponent<Renderer>().bounds.size/2);
             JointUsed = true;
+            center = validPos();
         }
     }
 
@@ -71,15 +73,18 @@ public class Snapping : MonoBehaviour
         for (int i = 0; i < 14; ++i)
         {
             Vector3 x = new Vector3();
+            float SizeOfRenderer = obj.transform.parent.GetComponent<Renderer>().bounds.size.x / 2 > obj.transform.parent.GetComponent<Renderer>().bounds.size.y / 2 ? obj.transform.parent.GetComponent<Renderer>().bounds.size.x / 2 : obj.transform.parent.GetComponent<Renderer>().bounds.size.y / 2;
+            //float SizeOfRenderer = obj.transform.parent.GetComponent<Renderer>().bounds.size.y / 2;
             if (i < 2)
             {
+                
                 if (i % 2 == 0)
                 {
-                    x = transform.position + new Vector3(obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2, 0f, 0f);
+                    x = transform.position + new Vector3(SizeOfRenderer, 0f, 0f);
                 }
                 else
                 {
-                    x = transform.position - new Vector3(obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2, 0f, 0f);
+                    x = transform.position - new Vector3(SizeOfRenderer, 0f, 0f);
                 }
 
             }
@@ -87,78 +92,79 @@ public class Snapping : MonoBehaviour
             {
                 if (i % 2 == 0)
                 {
-                    x = transform.position + new Vector3(0f, obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2, 0f);
+                    x = transform.position + new Vector3(0f, SizeOfRenderer, 0f);
                 }
                 else
                 {
-                    x = transform.position - new Vector3(0f, obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2, 0f);
+                    x = transform.position - new Vector3(0f, SizeOfRenderer, 0f);
                 }
             }
             else if (i < 6)
             {
                 if (i % 2 == 0)
                 {
-                    x = transform.position + new Vector3(0f, 0f, obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2);
+                    x = transform.position + new Vector3(0f, 0f, SizeOfRenderer);
                 }
                 else
                 {
-                    x = transform.position - new Vector3(0f, 0f, obj.transform.parent.GetComponent<Collider>().bounds.size.y/2);
+                    x = transform.position - new Vector3(0f, 0f, SizeOfRenderer);
                 }
             }
             else if(i < 8)
             {
                 if (i % 2 == 0)
                 {
-                    x = transform.position + new Vector3(obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2, obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2, 0f);
+                    x = transform.position + new Vector3(SizeOfRenderer, SizeOfRenderer, 0f);
                 }
                 else
                 {
-                    x = transform.position - new Vector3(obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2, obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2, 0f);
+                    x = transform.position - new Vector3(SizeOfRenderer, SizeOfRenderer, 0f);
                 }
             }
             else if(i < 10)
             {
                 if (i % 2 == 0)
                 {
-                    x = transform.position + new Vector3(obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2, 0f, obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2);
+                    x = transform.position + new Vector3(SizeOfRenderer, 0f, SizeOfRenderer);
                 }
                 else
                 {
-                    x = transform.position - new Vector3(obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2, 0f, obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2);
+                    x = transform.position - new Vector3(SizeOfRenderer, 0f, SizeOfRenderer);
                 }
             }
             else if(i < 12)
             {
                 if (i % 2 == 0)
                 {
-                    x = transform.position + new Vector3(0f, obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2, obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2);
+                    x = transform.position + new Vector3(0f, SizeOfRenderer, SizeOfRenderer);
                 }
                 else
                 {
-                    x = transform.position - new Vector3(0f, obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2, obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2);
+                    x = transform.position - new Vector3(0f, SizeOfRenderer, SizeOfRenderer);
                 }
             }
             else if(i < 14)
             {
                 if (i % 2 == 0)
                 {
-                    x = transform.position + new Vector3(obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2, obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2, obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2);
+                    x = transform.position + new Vector3(SizeOfRenderer, SizeOfRenderer, SizeOfRenderer);
                 }
                 else
                 {
-                    x = transform.position - new Vector3(obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2, obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2, obj.transform.parent.GetComponent<Collider>().bounds.size.y / 2);
+                    x = transform.position - new Vector3(SizeOfRenderer, SizeOfRenderer, SizeOfRenderer);
                 }
             }
             if(!transform.parent.GetComponent<Collider>().bounds.Contains(x))
             {
                 validPos.Add(x);
-                if(Vector3.Distance(obj.transform.parent.position, min) > Vector3.Distance(obj.transform.parent.position, x))
+                if(Vector3.Distance(obj.transform.parent.position, min) > Vector3.Distance(obj.transform.parent.position, x) && Vector3.Distance(obj.transform.position, min) > Vector3.Distance(obj.transform.position, x))
                 {
                     min = x;
                 }
             }
-            //Debug.Log(obj.transform.parent.GetComponent<Collider>().bounds.size.sqrMagnitude);
+            //Debug.Log(obj.transform.parent.GetComponent<Collider>().bounds.size.y * 2);
         }
+        dist = transform.parent.position - min;
         return min;
     }
 
@@ -169,8 +175,12 @@ public class Snapping : MonoBehaviour
         {
             //center = transform.position;
             //obj.transform.parent.transform.SetPositionAndRotation(center + new Vector3(0f,0f,-.5f), obj.transform.rotation);
-            center = validPos();
-            obj.transform.parent.transform.SetPositionAndRotation(center, obj.transform.rotation);
+            //center = validPos();
+
+            Vector3 offset = center- transform.parent.position + dist;
+            //Debug.Log(offset);
+            obj.transform.parent.transform.SetPositionAndRotation(center - offset, obj.transform.rotation);
+
         }
     }
 }
