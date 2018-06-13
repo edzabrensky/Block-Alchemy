@@ -28,7 +28,7 @@ public class Snapping : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (attach && !JointUsed && !other.gameObject.GetComponent<Snapping>().JointUsed && GetComponent<SphereCollider>().isTrigger == true)
+        if (attach && !JointUsed && !other.gameObject.GetComponent<Snapping>().JointUsed && GetComponent<SphereCollider>().isTrigger == true && other.gameObject.GetComponent<MeshRenderer>() == null)
         {
             if (other.gameObject.transform.parent.transform.parent != null)
             {
@@ -172,6 +172,7 @@ public class Snapping : MonoBehaviour
     void Update()
     {
         if(found && JointUsed)
+        //if (JointUsed)
         {
             //center = transform.position;
             //obj.transform.parent.transform.SetPositionAndRotation(center + new Vector3(0f,0f,-.5f), obj.transform.rotation);
