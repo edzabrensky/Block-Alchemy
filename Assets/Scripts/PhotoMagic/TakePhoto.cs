@@ -9,7 +9,6 @@ public class TakePhoto : MonoBehaviour
     private RenderTexture settings;
     private RenderTexture renderTexture;
     private Camera photoCamera;
-
     public Sprite Photo { get; private set; }
 
     private void Awake()

@@ -7,10 +7,10 @@ public class Template : MonoBehaviour
 {
     [SerializeField]
     private TemplateInstance instance;
-    [SerializeField]
     private Sprite thumbnail;
-    [SerializeField]
     private GameObject creation;
+    [SerializeField]
+    private Transform playerPosition;
     private Image image;
     
     private void Awake()
@@ -32,7 +32,7 @@ public class Template : MonoBehaviour
     public TemplateInstance CreateInstance()
     {
         // We want to move the object a bit forward of the menu
-        Vector3 directionToMoveIn = (ServiceLocator.Instance.GetPlayerPosition() - transform.position).normalized;
+        Vector3 directionToMoveIn = (playerPosition.position - transform.position).normalized;
         Vector3 newPosition = transform.position + (directionToMoveIn * 10);
         GameObject instanceCreated = Instantiate(instance.gameObject, newPosition, Quaternion.identity);
         TemplateInstance ti = instanceCreated.GetComponent<TemplateInstance>();
