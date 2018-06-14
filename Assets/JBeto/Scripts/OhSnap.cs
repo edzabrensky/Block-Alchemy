@@ -5,77 +5,103 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class OhSnap : MonoBehaviour
 {
-    private List<Transform> collection;
     private Rigidbody rigidBody;
+    private Dictionary<OhSnap, List<Transform>> ownerToCollection;
+    private List<Joint> connections;
 
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
-        collection = new List<Transform>();
+        connections = new List<Joint>();
+        ownerToCollection = new Dictionary<OhSnap, List<Transform>>();
     }
 
     #region JointCollection
-    public void AddItem(Transform item)
+    public void AddItem(Transform item, OhSnap os)
     {
-        collection.Add(item);
+        if (!ownerToCollection.ContainsKey(os))
+        {
+            ownerToCollection.Add(os, new List<Transform>());
+        }
+        ownerToCollection[os].Add(item);
     }
 
-    public void RemoveItem(Transform item)
+    public void RemoveItem(Transform item, OhSnap os)
     {
-        collection.Remove(item);
+        ownerToCollection[os].Remove(item);
     }
     #endregion
 
     // Snaps joints based on how many are connected
     // Valid joint positions are recorded in collection
-    public void SnapJoints(OhSnap other)
+    public void SnapJoints()
     {
-        // Both joints are occupied, can't snap
-        if ((other.GetComponent<Joint>() != null) && (GetComponent<Joint>() != null))
+        foreach (OhSnap other in ownerToCollection.Keys)
         {
-            return;
-        }
-        // No joints to snap with
-        if (collection.Count == 0)
-        {
-            return;
-        }
-
-        GameObject toAdd = AddJointToThis(other);
-        if (collection.Count == 1)
-        {
-            // Spring Joint
-            SpringJoint spring = toAdd.AddComponent<SpringJoint>();
-            spring.connectedBody = (toAdd == gameObject) ? other.rigidBody : rigidBody;
-            spring.anchor = collection[0].localPosition;
-            spring.enableCollision = true;
-        }
-        else if (collection.Count == 2)
-        {
-            // Hinge Joint
-            HingeJoint hinge = toAdd.AddComponent<HingeJoint>();
-            hinge.connectedBody = (toAdd == gameObject) ? other.rigidBody : rigidBody;
-            hinge.anchor = Vector3.Lerp(collection[0].localPosition, collection[1].localPosition, .5f);
-            hinge.enableCollision = true;
-        }
-        else
-        {
-            // Fixed Joint
-            FixedJoint fix = toAdd.AddComponent<FixedJoint>();
-            fix.enableCollision = true;
-            fix.connectedBody = (toAdd == gameObject) ? other.rigidBody : rigidBody;
-            Vector3 avg = Vector3.zero;
-            foreach(Transform t in collection)
+            Debug.Log("Snapping joint");
+            List<Transform> collection = ownerToCollection[other];
+            // Both joints are occupied, can't snap
+            if ((other.GetComponent<Joint>() != null) && (GetComponent<Joint>() != null))
             {
-                avg += t.localPosition;
+                return;
             }
-            avg /= collection.Count;
-            fix.anchor = avg;
+            // No joints to snap with
+            if (collection.Count == 0)
+            {
+                Debug.Log("No joint to snap");
+                return;
+            }
+
+            GameObject toAdd = AddJointToThis(other);
+            if (collection.Count == 1)
+            {
+                // Spring Joint
+                SpringJoint spring = toAdd.AddComponent<SpringJoint>();
+                spring.spring = 35;
+                connections.Add(spring);
+                spring.connectedBody = (toAdd == gameObject) ? other.rigidBody : rigidBody;
+                spring.anchor = collection[0].localPosition;
+                spring.enableCollision = true;
+            }
+            else if (collection.Count == 2)
+            {
+                // Hinge Joint
+                HingeJoint hinge = toAdd.AddComponent<HingeJoint>();
+                connections.Add(hinge);
+                hinge.connectedBody = (toAdd == gameObject) ? other.rigidBody : rigidBody;
+                hinge.anchor = Vector3.Lerp(collection[0].localPosition, collection[1].localPosition, .5f);
+                hinge.enableCollision = true;
+            }
+            else
+            {
+                // Fixed Joint
+                FixedJoint fix = toAdd.AddComponent<FixedJoint>();
+                connections.Add(fix);
+                fix.enableCollision = true;
+                fix.connectedBody = (toAdd == gameObject) ? other.rigidBody : rigidBody;
+                Vector3 avg = Vector3.zero;
+                foreach (Transform t in collection)
+                {
+                    avg += t.localPosition;
+                }
+                avg /= collection.Count;
+                fix.anchor = avg;
+            }
         }
     }
     
+    public void BreakJoints()
+    {
+        foreach(Joint j in connections)
+        {
+            Debug.Log("Destroyed");
+            Destroy(j);
+        }
+        connections.Clear();
+    }
+
     // Finds out which game object to add joint to
-    public GameObject AddJointToThis(OhSnap other)
+    private GameObject AddJointToThis(OhSnap other)
     {
         return (GetComponent<Joint>() == null) ? gameObject : other.gameObject;
     }

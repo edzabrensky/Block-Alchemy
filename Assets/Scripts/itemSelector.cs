@@ -124,13 +124,13 @@ public class ItemSelector : MonoBehaviour
         if (this.grabbedObject != null)
         this.line.SetPosition(1, this.grabbedObject.position);
     }
-    private void manipulateObject_Enter()
+    private void ManipulateObject_Enter()
     {
         //player.EnableRotation = false;
         //player.EnableLinearMovement = false;
     }
 
-    private void manipulateObject_Update()
+    private void ManipulateObject_Update()
     {
         if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.C))
         {
@@ -173,7 +173,7 @@ public class ItemSelector : MonoBehaviour
             this.grabbedObject.Rotate(Vector3.down * 90);
     }
 
-    private void manipulateObject_Exit()
+    private void ManipulateObject_Exit()
     {
         //player.EnableRotation = true;
         //player.EnableLinearMovement = true;

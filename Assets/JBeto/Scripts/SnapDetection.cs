@@ -10,7 +10,7 @@ public class SnapDetection : MonoBehaviour
 
     private void Awake()
     {
-        joints = Utility.GetSafeComponent<OhSnap>(gameObject);
+        joints = Utility.GetSafeComponent<OhSnap>(transform.parent.gameObject);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -18,7 +18,8 @@ public class SnapDetection : MonoBehaviour
         // If the other collider is also a joint
         if (other.GetComponent<SnapDetection>() != null)
         {
-            this.joints.AddItem(transform);
+            this.joints.AddItem(transform, other.transform.parent.GetComponent<OhSnap>());
+            Debug.Log("Detected joint collision");
         }
     }
 
@@ -27,7 +28,8 @@ public class SnapDetection : MonoBehaviour
         // If the other collider is also a joint
         if (other.GetComponent<SnapDetection>() != null)
         {
-            this.joints.RemoveItem(transform);
+            this.joints.RemoveItem(transform, other.transform.parent.GetComponent<OhSnap>());
+            Debug.Log("Removing joint collision");
         }
     }
 }

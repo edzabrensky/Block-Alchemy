@@ -19,7 +19,8 @@ public class HighlightJoint : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        meshRenderer.enabled = true;
+        if (other.gameObject.layer == LayerMask.NameToLayer("Joint"))
+            meshRenderer.enabled = true;
     }
 
     public void OnTriggerExit(Collider other)

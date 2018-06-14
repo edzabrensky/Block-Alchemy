@@ -19,7 +19,6 @@ public class RaycastSelection : MonoBehaviour
     {
         this.line = GetComponent<LineRenderer>();
         this.fsm = StateMachine<RaycastStates>.Initialize(this);
-        this.line.widthMultiplier = 0.3f;
         this.fsm.ChangeState(RaycastStates.Idle);
     }
 
@@ -35,7 +34,7 @@ public class RaycastSelection : MonoBehaviour
 
     private void Idle_Exit()
     {
-
+        this.line.widthMultiplier = 0.3f;
     }
 
     private void Raycast_Enter()
@@ -108,14 +107,14 @@ public class RaycastSelection : MonoBehaviour
 
         if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.T)) //attach
         {
-            
-            //is.grabbedObject.GetComponent<FixedJoint>().connectedBody = 
+            OhSnap snap = Utility.GetSafeComponent<OhSnap>(grabbedObject);
+            snap.SnapJoints();
         }
         if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.Y)) //detach
         {
-
-            if (this.grabbedObject.GetComponent<FixedJoint>() != null)
-                Destroy(this.grabbedObject.GetComponent<FixedJoint>());
+            Debug.Log("Break Joint");
+            OhSnap snap = Utility.GetSafeComponent<OhSnap>(grabbedObject);
+            snap.BreakJoints();
         }
 
         // Sets the line
@@ -123,13 +122,13 @@ public class RaycastSelection : MonoBehaviour
         if (this.grabbedObject != null)
             this.line.SetPosition(1, this.grabbedObject.position);
     }
-    private void manipulateObject_Enter()
+    private void ManipulateObject_Enter()
     {
         //player.EnableRotation = false;
         //player.EnableLinearMovement = false;
     }
 
-    private void manipulateObject_Update()
+    private void ManipulateObject_Update()
     {
         if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.C))
         {
@@ -172,7 +171,7 @@ public class RaycastSelection : MonoBehaviour
             this.grabbedObject.Rotate(Vector3.down * 90);
     }
 
-    private void manipulateObject_Exit()
+    private void ManipulateObject_Exit()
     {
         //player.EnableRotation = true;
         //player.EnableLinearMovement = true;
