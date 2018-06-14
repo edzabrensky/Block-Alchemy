@@ -19,7 +19,8 @@ public class ApplyForce : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision)
     {
-        velocity += collision.relativeVelocity;
+        if(collision.collider.gameObject.layer != LayerMask.GetMask("Ground"))
+            velocity += collision.relativeVelocity;
         //Debug.Log(velocity);
     }
 
@@ -27,9 +28,9 @@ public class ApplyForce : MonoBehaviour {
     {
         Debug.Log("FORCE APPLIED");
         Debug.Log("VELOCITY:");
-        rb.useGravity = false;
+//        rb.useGravity = false;
         rb.isKinematic = false;
-        rb.AddForce(velocity);
-        //velocity = Vector3.zero;
+        rb.AddForce(transform.TransformDirection(velocity) * 100);
+        velocity = Vector3.zero;
     }
 }
