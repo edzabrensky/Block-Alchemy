@@ -57,7 +57,7 @@ public class OhSnap : MonoBehaviour
                 return;
             }
 
-            GameObject toAdd = AddJointToThis(other);
+            GameObject toAdd = other.AddJointToThis(this);
             if (collection.Count == 1)
             {
                 // Spring Joint

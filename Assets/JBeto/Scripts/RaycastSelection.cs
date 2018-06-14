@@ -8,12 +8,14 @@ using MonsterLove.StateMachine;
 public class RaycastSelection : MonoBehaviour
 {
     public float rotationSpeed, moveSpeed;
+    public Energy energy;
     private LineRenderer line;
     //public OVRPlayerController player;
     private Transform grabbedObject;
     private bool attachComponent = false;
     private enum RaycastStates { Idle, Raycast, GrabbedObject, ManipulateObject };
     private StateMachine<RaycastStates> fsm;
+    private bool isEnergyOn = false;
 
     private void Awake()
     {
@@ -29,6 +31,11 @@ public class RaycastSelection : MonoBehaviour
         if (OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger) || Input.GetKeyDown(KeyCode.Z))
         {
             fsm.ChangeState(RaycastStates.Raycast);
+        }
+        // Energy
+        if (OVRInput.GetDown(OVRInput.Button.One))
+        {
+            energy.ReleaseEnergy();
         }
     }
 
@@ -116,12 +123,24 @@ public class RaycastSelection : MonoBehaviour
             OhSnap snap = Utility.GetSafeComponent<OhSnap>(grabbedObject);
             snap.BreakJoints();
         }
-
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) && !isEnergyOn)
+        {
+            energy.StoreEnergy(this.grabbedObject.GetComponent<Rigidbody>());
+            isEnergyOn = true;
+        }
+        
         // Sets the line
         this.line.SetPosition(0, transform.position);
         if (this.grabbedObject != null)
             this.line.SetPosition(1, this.grabbedObject.position);
     }
+
+    private void GrabbedObject_Exit()
+    {
+        isEnergyOn = false;
+        energy.Cancel();
+    }
+
     private void ManipulateObject_Enter()
     {
         //player.EnableRotation = false;
