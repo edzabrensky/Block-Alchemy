@@ -5,7 +5,7 @@ using MonsterLove.StateMachine;
 
 // Attach this to the hand
 [RequireComponent(typeof(LineRenderer))]
-public class ItemSelector : MonoBehaviour
+public class RaycastSelection : MonoBehaviour
 {
     public float rotationSpeed, moveSpeed;
     private LineRenderer line;
@@ -35,12 +35,13 @@ public class ItemSelector : MonoBehaviour
 
     private void Idle_Exit()
     {
-        
+
     }
 
     private void Raycast_Enter()
     {
-        if(this.grabbedObject != null){
+        if (this.grabbedObject != null)
+        {
             this.grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
             this.grabbedObject.parent = null;
             this.grabbedObject = null;
@@ -68,7 +69,7 @@ public class ItemSelector : MonoBehaviour
                 {
                     //if(hit.transform.GetComponent<Renderer>() != null)
                     //{
-                        this.grabbedObject = hit.transform;
+                    this.grabbedObject = hit.transform;
                     /*}
                     else
                     {
@@ -107,8 +108,6 @@ public class ItemSelector : MonoBehaviour
 
         if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.T)) //attach
         {
-            if(this.grabbedObject.GetComponent<AttachCollision>().Collided != null)
-                this.grabbedObject.gameObject.AddComponent<FixedJoint>().connectedBody = this.grabbedObject.GetComponent<AttachCollision>().Collided;
             
             //is.grabbedObject.GetComponent<FixedJoint>().connectedBody = 
         }
@@ -122,7 +121,7 @@ public class ItemSelector : MonoBehaviour
         // Sets the line
         this.line.SetPosition(0, transform.position);
         if (this.grabbedObject != null)
-        this.line.SetPosition(1, this.grabbedObject.position);
+            this.line.SetPosition(1, this.grabbedObject.position);
     }
     private void manipulateObject_Enter()
     {
