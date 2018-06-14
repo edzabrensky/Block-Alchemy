@@ -38,6 +38,11 @@ public class OhSnap : MonoBehaviour
     {
         foreach (OhSnap other in ownerToCollection.Keys)
         {
+            // Dont snap to something already connected
+            if (connections.Contains(other.GetComponent<Joint>()))
+            {
+                continue;
+            }
             Debug.Log("Snapping joint");
             List<Transform> collection = ownerToCollection[other];
             // Both joints are occupied, can't snap
@@ -56,8 +61,9 @@ public class OhSnap : MonoBehaviour
             if (collection.Count == 1)
             {
                 // Spring Joint
-                SpringJoint spring = toAdd.AddComponent<SpringJoint>();
-                spring.spring = 35;
+                // SpringJoint spring = toAdd.AddComponent<SpringJoint>();
+                FixedJoint spring = toAdd.AddComponent<FixedJoint>();
+                // spring.spring = 50;
                 connections.Add(spring);
                 spring.connectedBody = (toAdd == gameObject) ? other.rigidBody : rigidBody;
                 spring.anchor = collection[0].localPosition;
@@ -66,8 +72,10 @@ public class OhSnap : MonoBehaviour
             else if (collection.Count == 2)
             {
                 // Hinge Joint
-                HingeJoint hinge = toAdd.AddComponent<HingeJoint>();
+                //HingeJoint hinge = toAdd.AddComponent<HingeJoint>();
+                FixedJoint hinge = toAdd.AddComponent<FixedJoint>();
                 connections.Add(hinge);
+                // hinge.
                 hinge.connectedBody = (toAdd == gameObject) ? other.rigidBody : rigidBody;
                 hinge.anchor = Vector3.Lerp(collection[0].localPosition, collection[1].localPosition, .5f);
                 hinge.enableCollision = true;
