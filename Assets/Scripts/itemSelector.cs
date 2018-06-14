@@ -35,7 +35,7 @@ public class itemSelector : MonoBehaviour
 
     private void Idle_Exit()
     {
-        this.line.widthMultiplier = 1;
+        this.line.widthMultiplier = 0.2f;
     }
 
     private void Raycast_Enter()
