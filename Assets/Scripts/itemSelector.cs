@@ -8,7 +8,7 @@ using MonsterLove.StateMachine;
 public class ItemSelector : MonoBehaviour {
     public float rotationSpeed, moveSpeed;
     private LineRenderer line;
-    public OVRPlayerController player;
+    //public OVRPlayerController player;
     private Transform grabbedObject;
 
     private enum RaycastStates { Idle, Raycast, GrabbedObject, manipulateObject };
@@ -25,7 +25,7 @@ public class ItemSelector : MonoBehaviour {
     {
         this.line.widthMultiplier = 0;
         //this.line.SetPosition(1, this.transform.position);
-        if (OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger) || Input.GetKeyDown(KeyCode.Space))
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger) || Input.GetKeyDown(KeyCode.Z))
         {
             fsm.ChangeState(RaycastStates.Raycast);
         }
@@ -43,12 +43,12 @@ public class ItemSelector : MonoBehaviour {
             this.grabbedObject.parent = null;
             this.grabbedObject = null;
         }
-        player.EnableRotation = true;
+        //player.EnableRotation = true;
     }
 
     private void Raycast_Update()
     {
-        if (OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger) || Input.GetKeyDown(KeyCode.Space))
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger) || Input.GetKeyDown(KeyCode.Z))
         {
             fsm.ChangeState(RaycastStates.Idle);
         }
@@ -90,7 +90,7 @@ public class ItemSelector : MonoBehaviour {
         {
             fsm.ChangeState(RaycastStates.Raycast);
         }
-        if (OVRInput.GetDown(OVRInput.Button.Two))
+        if (OVRInput.GetDown(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.F))
         {
             fsm.ChangeState(RaycastStates.manipulateObject);
         }
@@ -100,17 +100,17 @@ public class ItemSelector : MonoBehaviour {
     }
     private void manipulateObject_Enter()
     {
-        player.EnableRotation = false;
-        player.EnableLinearMovement = false;
+        //player.EnableRotation = false;
+        //player.EnableLinearMovement = false;
     }
 
     private void manipulateObject_Update()
     {
-        if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.C))
         {
             fsm.ChangeState(RaycastStates.Raycast);
         }
-        if (OVRInput.GetDown(OVRInput.Button.Two))
+        if (OVRInput.GetDown(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.F))
         {
             fsm.ChangeState(RaycastStates.GrabbedObject);
         }
@@ -118,14 +118,14 @@ public class ItemSelector : MonoBehaviour {
         this.line.SetPosition(0, transform.position);
         this.line.SetPosition(1, this.grabbedObject.position);
         // Position
-        if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickUp) || Input.GetKey(KeyCode.W))
+        if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickUp) || Input.GetKey(KeyCode.UpArrow))
             this.grabbedObject.transform.position += transform.TransformDirection(Vector3.up) * moveSpeed;
-        if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickDown) || Input.GetKey(KeyCode.S))
+        if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickDown) || Input.GetKey(KeyCode.DownArrow))
             if (Vector3.Distance(transform.position, this.grabbedObject.transform.position) > 2)
                 this.grabbedObject.transform.position += transform.TransformDirection(Vector3.down) * moveSpeed;
-        if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickLeft) || Input.GetKey(KeyCode.A))
+        if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickLeft) || Input.GetKey(KeyCode.LeftArrow))
             this.grabbedObject.transform.position += transform.TransformDirection(Vector3.left) * moveSpeed;
-        if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickRight) || Input.GetKey(KeyCode.D))
+        if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickRight) || Input.GetKey(KeyCode.RightArrow))
             this.grabbedObject.transform.position += transform.TransformDirection(Vector3.right) * moveSpeed;
         if (OVRInput.Get(OVRInput.Button.Four) || Input.GetKey(KeyCode.Q))
             this.grabbedObject.transform.position += transform.TransformDirection(Vector3.forward) * moveSpeed;
@@ -149,7 +149,7 @@ public class ItemSelector : MonoBehaviour {
 
     private void manipulateObject_Exit()
     {
-        player.EnableRotation = true;
-        player.EnableLinearMovement = true;
+        //player.EnableRotation = true;
+        //player.EnableLinearMovement = true;
     }
 }

@@ -36,17 +36,18 @@ public class Movement : MonoBehaviour {
             transform.position += transform.TransformDirection(Vector3.down) * speed;
         }
 
-        if (Input.GetKey(KeyCode.UpArrow))
-            transform.Rotate(Vector3.left * Time.deltaTime * rotationSpeed);
-        if (Input.GetKey(KeyCode.DownArrow))
-            transform.Rotate(Vector3.right * Time.deltaTime * rotationSpeed);
         if (Input.GetKey(KeyCode.A))
             transform.Rotate(Vector3.down * Time.deltaTime * rotationSpeed);
         if (Input.GetKey(KeyCode.D))
             transform.Rotate(Vector3.up * Time.deltaTime * rotationSpeed);
-        if (Input.GetKey(KeyCode.LeftArrow))
-            transform.Rotate(Vector3.forward * Time.deltaTime * rotationSpeed);
-        if (Input.GetKey(KeyCode.RightArrow))
-            transform.Rotate(Vector3.back * Time.deltaTime * rotationSpeed);
+        //if (Input.GetKey(KeyCode.UpArrow))
+        //    transform.Rotate(Vector3.left * Time.deltaTime * rotationSpeed);
+        //if (Input.GetKey(KeyCode.DownArrow))
+        //    transform.Rotate(Vector3.right * Time.deltaTime * rotationSpeed);
+
+        //if (Input.GetKey(KeyCode.LeftArrow))
+        //    transform.Rotate(Vector3.forward * Time.deltaTime * rotationSpeed);
+        //if (Input.GetKey(KeyCode.RightArrow))
+        //    transform.Rotate(Vector3.back * Time.deltaTime * rotationSpeed);
     }
 }
