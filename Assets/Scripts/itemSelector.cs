@@ -102,6 +102,21 @@ public class itemSelector : MonoBehaviour {
         {
             fsm.ChangeState(RaycastStates.manipulateObject);
         }
+
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.T)) //attach
+        {
+            if(this.grabbedObject.GetComponent<AttachCollision>().Collided != null)
+                this.grabbedObject.gameObject.AddComponent<FixedJoint>().connectedBody = this.grabbedObject.GetComponent<AttachCollision>().Collided;
+            
+            //is.grabbedObject.GetComponent<FixedJoint>().connectedBody = 
+        }
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.Y)) //detach
+        {
+
+            if (this.grabbedObject.GetComponent<FixedJoint>() != null)
+                Destroy(this.grabbedObject.GetComponent<FixedJoint>());
+        }
+
         // Sets the line
         this.line.SetPosition(0, transform.position);
         this.line.SetPosition(1, this.grabbedObject.position);
@@ -153,37 +168,6 @@ public class itemSelector : MonoBehaviour {
         if (OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickRight) || Input.GetKeyDown(KeyCode.L))
             //this.grabbedObject.Rotate(Vector3.down * Time.deltaTime * rotationSpeed);
             this.grabbedObject.Rotate(Vector3.down * 90);
-        if(OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.T)) //attach
-        {
-            //attachComponent = !attachComponent;
-            //if(attachComponent)
-            //{
-                for (var i = this.grabbedObject.transform.childCount - 1; i >= 0; i--)
-                {
-                    var ObjectA = this.grabbedObject.transform.GetChild(i);
-                    ObjectA.GetComponent<Snapping>().attach = true;
-                }
-            /*for (var i = this.grabbedObject.transform.childCount - 1; i >= 0; i--)
-            {
-                var ObjectA = this.grabbedObject.transform.GetChild(i);
-                ObjectA.GetComponent<Snapping>().JointUsed = false;
-            }*/
-            //}
-        }
-        if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.Y)) //detach
-        {
-            for (var i = this.grabbedObject.transform.childCount - 1; i >= 0; i--)
-            {
-                var ObjectA = this.grabbedObject.transform.GetChild(i);
-                ObjectA.GetComponent<Snapping>().attach = false;
-            }
-            for (var i = this.grabbedObject.transform.childCount - 1; i >= 0; i--)
-            {
-                var ObjectA = this.grabbedObject.transform.GetChild(i);
-                ObjectA.GetComponent<Snapping>().JointUsed = false;
-            }
-            this.grabbedObject.transform.SetParent(null);
-        }
     }
 
     private void manipulateObject_Exit()
