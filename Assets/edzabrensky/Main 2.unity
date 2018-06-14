@@ -205,10 +205,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &311535168 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 462066, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 2}
-  m_PrefabInternal: {fileID: 1709965467}
 --- !u!1001 &313923798
 Prefab:
   m_ObjectHideFlags: 0
@@ -917,8 +913,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f1a9a1d119a5944aacfb87d1ec283a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackingSpace: {fileID: 311535168}
-  lineRenderer: {fileID: 1681138101}
   rayTransform: {fileID: 1135160840}
   joyPadClickButton: 1
   gazeClickKey: 32

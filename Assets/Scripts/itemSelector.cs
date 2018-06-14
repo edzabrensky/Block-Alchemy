@@ -5,11 +5,11 @@ using MonsterLove.StateMachine;
 
 // Attach this to the hand
 [RequireComponent(typeof(LineRenderer))]
-public class ItemSelector : MonoBehaviour
+public class itemSelector : MonoBehaviour
 {
     public float rotationSpeed, moveSpeed;
     private LineRenderer line;
-    //public OVRPlayerController player;
+    public OVRPlayerController player;
     private Transform grabbedObject;
     private bool attachComponent = false;
     private enum RaycastStates { Idle, Raycast, GrabbedObject, ManipulateObject };
@@ -35,7 +35,7 @@ public class ItemSelector : MonoBehaviour
 
     private void Idle_Exit()
     {
-        
+        this.line.widthMultiplier = 1;
     }
 
     private void Raycast_Enter()
@@ -45,7 +45,7 @@ public class ItemSelector : MonoBehaviour
             this.grabbedObject.parent = null;
             this.grabbedObject = null;
         }
-        //player.EnableRotation = true;
+        player.EnableRotation = true;
     }
 
     private void Raycast_Update()
@@ -58,12 +58,14 @@ public class ItemSelector : MonoBehaviour
         {
             RaycastHit hit;
             this.line.SetPosition(0, transform.position);
-            Debug.Log("instate Object");
+            //Debug.Log("instate Object");
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit,
                 5000, LayerMask.GetMask("Selected")))
             {
-                Debug.Log("hit Object");
+                //Debug.Log("hit Object");
                 this.line.SetPosition(1, hit.point);
+                if (OVRInput.GetDown(OVRInput.Button.Four) || Input.GetKey(KeyCode.Q))
+                    hit.transform.gameObject.GetComponent<ApplyForce>().updateForce();
                 if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.C))
                 {
                     //if(hit.transform.GetComponent<Renderer>() != null)
@@ -80,7 +82,7 @@ public class ItemSelector : MonoBehaviour
             }
             else
             {
-                Debug.Log("no hit Object");
+                //Debug.Log("no hit Object");
                 this.line.SetPosition(1, transform.TransformDirection(Vector3.forward) * 5000);
             }
         }
@@ -105,14 +107,13 @@ public class ItemSelector : MonoBehaviour
             fsm.ChangeState(RaycastStates.ManipulateObject);
         }
 
-        if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.T)) //attach
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger) || Input.GetKeyDown(KeyCode.T)) //attach
         {
             if(this.grabbedObject.GetComponent<AttachCollision>().Collided != null)
                 this.grabbedObject.gameObject.AddComponent<FixedJoint>().connectedBody = this.grabbedObject.GetComponent<AttachCollision>().Collided;
-            
-            //is.grabbedObject.GetComponent<FixedJoint>().connectedBody = 
+           
         }
-        if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.Y)) //detach
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) || Input.GetKeyDown(KeyCode.Y)) //detach
         {
 
             if (this.grabbedObject.GetComponent<FixedJoint>() != null)
@@ -126,8 +127,8 @@ public class ItemSelector : MonoBehaviour
     }
     private void ManipulateObject_Enter()
     {
-        //player.EnableRotation = false;
-        //player.EnableLinearMovement = false;
+        player.EnableRotation = false;
+        player.EnableLinearMovement = false;
     }
 
     private void ManipulateObject_Update()
@@ -153,29 +154,29 @@ public class ItemSelector : MonoBehaviour
             this.grabbedObject.transform.position += transform.TransformDirection(Vector3.left) * moveSpeed;
         if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickRight) || Input.GetKey(KeyCode.RightArrow))
             this.grabbedObject.transform.position += transform.TransformDirection(Vector3.right) * moveSpeed;
-        if (OVRInput.Get(OVRInput.Button.Four) || Input.GetKey(KeyCode.Q))
-            this.grabbedObject.transform.position += transform.TransformDirection(Vector3.forward) * moveSpeed;
+        //if (OVRInput.Get(OVRInput.Button.Four) || Input.GetKey(KeyCode.Q))
+        //    this.grabbedObject.transform.position += transform.TransformDirection(Vector3.forward) * moveSpeed;
         if (OVRInput.Get(OVRInput.Button.Three) || Input.GetKey(KeyCode.E))
             this.grabbedObject.transform.position += transform.TransformDirection(Vector3.back) * moveSpeed;
 
         // Rotation
-        if (OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickUp) || Input.GetKeyDown(KeyCode.I))
-            //this.grabbedObject.Rotate(Vector3.right * Time.deltaTime * rotationSpeed);
-            this.grabbedObject.Rotate(Vector3.right * 90);
-        if (OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickDown) || Input.GetKeyDown(KeyCode.K))
-            //this.grabbedObject.Rotate(Vector3.left * Time.deltaTime * rotationSpeed);
-            this.grabbedObject.Rotate(Vector3.left * 90);
-        if (OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickLeft) || Input.GetKeyDown(KeyCode.J))
-            //this.grabbedObject.Rotate(Vector3.up * Time.deltaTime * rotationSpeed);
-            this.grabbedObject.Rotate(Vector3.up * 90);
-        if (OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickRight) || Input.GetKeyDown(KeyCode.L))
-            //this.grabbedObject.Rotate(Vector3.down * Time.deltaTime * rotationSpeed);
-            this.grabbedObject.Rotate(Vector3.down * 90);
+        if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickUp) || Input.GetKeyDown(KeyCode.I))
+            this.grabbedObject.Rotate(Vector3.right * Time.deltaTime * rotationSpeed);
+            //this.grabbedObject.Rotate(Vector3.right * 90);
+        if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickDown) || Input.GetKeyDown(KeyCode.K))
+            this.grabbedObject.Rotate(Vector3.left * Time.deltaTime * rotationSpeed);
+            //this.grabbedObject.Rotate(Vector3.left * 90);
+        if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickLeft) || Input.GetKeyDown(KeyCode.J))
+            this.grabbedObject.Rotate(Vector3.up * Time.deltaTime * rotationSpeed);
+            //this.grabbedObject.Rotate(Vector3.up * 90);
+        if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickRight) || Input.GetKeyDown(KeyCode.L))
+            this.grabbedObject.Rotate(Vector3.down * Time.deltaTime * rotationSpeed);
+            //this.grabbedObject.Rotate(Vector3.down * 90);
     }
 
     private void ManipulateObject_Exit()
     {
-        //player.EnableRotation = true;
-        //player.EnableLinearMovement = true;
+        player.EnableRotation = true;
+        player.EnableLinearMovement = true;
     }
 }

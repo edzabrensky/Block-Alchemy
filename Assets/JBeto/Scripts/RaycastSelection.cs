@@ -116,12 +116,12 @@ public class RaycastSelection : MonoBehaviour
             fsm.ChangeState(RaycastStates.ManipulateObject);
         }
 
-        if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.T)) //attach
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger) || Input.GetKeyDown(KeyCode.T)) //attach
         {
             OhSnap snap = Utility.GetSafeComponent<OhSnap>(grabbedObject);
             snap.SnapJoints();
         }
-        if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.Y)) //detach
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) || Input.GetKeyDown(KeyCode.Y)) //detach
         {
             Debug.Log("Break Joint");
             OhSnap snap = Utility.GetSafeComponent<OhSnap>(grabbedObject);
