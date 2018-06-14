@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour {
+public class movement : MonoBehaviour {
     public float speed, rotationSpeed;
 	// Use this for initialization
 	void Start () {

@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 65974465238817196}
   - component: {fileID: 23780758404212442}
   - component: {fileID: 54105465944416172}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,7 +328,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1813473645206964}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.66, y: 0.989, z: 7.065}
+  m_LocalPosition: {x: -0.13, y: -0.287, z: -1.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4841301683668520}
@@ -765,7 +765,7 @@ BoxCollider:
   m_GameObject: {fileID: 1813473645206964}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -780,6 +780,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b45cde2a1ffc94291d38f49c821871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attach: 0
   JointUsed: 0
 --- !u!114 &114020845361990816
 MonoBehaviour:
@@ -792,6 +793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b45cde2a1ffc94291d38f49c821871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attach: 0
   JointUsed: 0
 --- !u!114 &114062523293383720
 MonoBehaviour:
@@ -804,6 +806,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b45cde2a1ffc94291d38f49c821871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attach: 0
   JointUsed: 0
 --- !u!114 &114111727692405194
 MonoBehaviour:
@@ -816,6 +819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b45cde2a1ffc94291d38f49c821871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attach: 0
   JointUsed: 0
 --- !u!114 &114155145606275664
 MonoBehaviour:
@@ -828,6 +832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b45cde2a1ffc94291d38f49c821871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attach: 0
   JointUsed: 0
 --- !u!114 &114229154621407480
 MonoBehaviour:
@@ -840,6 +845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b45cde2a1ffc94291d38f49c821871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attach: 0
   JointUsed: 0
 --- !u!114 &114311621984284454
 MonoBehaviour:
@@ -852,6 +858,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b45cde2a1ffc94291d38f49c821871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attach: 0
   JointUsed: 0
 --- !u!114 &114332077562660732
 MonoBehaviour:
@@ -864,6 +871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b45cde2a1ffc94291d38f49c821871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attach: 0
   JointUsed: 0
 --- !u!114 &114402683664034340
 MonoBehaviour:
@@ -876,6 +884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b45cde2a1ffc94291d38f49c821871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attach: 0
   JointUsed: 0
 --- !u!114 &114449525133262722
 MonoBehaviour:
@@ -888,6 +897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b45cde2a1ffc94291d38f49c821871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attach: 0
   JointUsed: 0
 --- !u!114 &114454596013733132
 MonoBehaviour:
@@ -900,6 +910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b45cde2a1ffc94291d38f49c821871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attach: 0
   JointUsed: 0
 --- !u!114 &114469286757631536
 MonoBehaviour:
@@ -912,6 +923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b45cde2a1ffc94291d38f49c821871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attach: 0
   JointUsed: 0
 --- !u!114 &114730560434699478
 MonoBehaviour:
@@ -924,6 +936,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b45cde2a1ffc94291d38f49c821871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attach: 0
   JointUsed: 0
 --- !u!114 &114993028132685718
 MonoBehaviour:
@@ -936,6 +949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b45cde2a1ffc94291d38f49c821871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attach: 0
   JointUsed: 0
 --- !u!135 &135023955513722406
 SphereCollider:

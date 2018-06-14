@@ -5,12 +5,12 @@ using MonsterLove.StateMachine;
 
 // Attach this to the hand
 [RequireComponent(typeof(LineRenderer))]
-public class ItemSelector : MonoBehaviour {
+public class itemSelector : MonoBehaviour {
     public float rotationSpeed, moveSpeed;
     private LineRenderer line;
     //public OVRPlayerController player;
     private Transform grabbedObject;
-
+    private bool attachComponent = false;
     private enum RaycastStates { Idle, Raycast, GrabbedObject, manipulateObject };
     private StateMachine<RaycastStates> fsm;
 
@@ -64,7 +64,15 @@ public class ItemSelector : MonoBehaviour {
                 this.line.SetPosition(1, hit.point);
                 if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.C))
                 {
-                    this.grabbedObject = hit.transform;
+                    //if(hit.transform.GetComponent<Renderer>() != null)
+                    //{
+                        this.grabbedObject = hit.transform;
+                    /*}
+                    else
+                    {
+                        this.grabbedObject = hit.transform.parent.transform;
+                    }*/
+                    Debug.Log(this.grabbedObject);
                     fsm.ChangeState(RaycastStates.GrabbedObject);
                 }
             }
@@ -133,18 +141,49 @@ public class ItemSelector : MonoBehaviour {
             this.grabbedObject.transform.position += transform.TransformDirection(Vector3.back) * moveSpeed;
 
         // Rotation
-        if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickUp) || Input.GetKey(KeyCode.I))
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickUp) || Input.GetKeyDown(KeyCode.I))
             //this.grabbedObject.Rotate(Vector3.right * Time.deltaTime * rotationSpeed);
             this.grabbedObject.Rotate(Vector3.right * 90);
-        if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickDown) || Input.GetKey(KeyCode.K))
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickDown) || Input.GetKeyDown(KeyCode.K))
             //this.grabbedObject.Rotate(Vector3.left * Time.deltaTime * rotationSpeed);
             this.grabbedObject.Rotate(Vector3.left * 90);
-        if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickLeft) || Input.GetKey(KeyCode.J))
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickLeft) || Input.GetKeyDown(KeyCode.J))
             //this.grabbedObject.Rotate(Vector3.up * Time.deltaTime * rotationSpeed);
             this.grabbedObject.Rotate(Vector3.up * 90);
-        if (OVRInput.Get(OVRInput.Button.SecondaryThumbstickRight) || Input.GetKey(KeyCode.L))
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryThumbstickRight) || Input.GetKeyDown(KeyCode.L))
             //this.grabbedObject.Rotate(Vector3.down * Time.deltaTime * rotationSpeed);
             this.grabbedObject.Rotate(Vector3.down * 90);
+        if(OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.T)) //attach
+        {
+            //attachComponent = !attachComponent;
+            //if(attachComponent)
+            //{
+                for (var i = this.grabbedObject.transform.childCount - 1; i >= 0; i--)
+                {
+                    var ObjectA = this.grabbedObject.transform.GetChild(i);
+                    ObjectA.GetComponent<Snapping>().attach = true;
+                }
+            /*for (var i = this.grabbedObject.transform.childCount - 1; i >= 0; i--)
+            {
+                var ObjectA = this.grabbedObject.transform.GetChild(i);
+                ObjectA.GetComponent<Snapping>().JointUsed = false;
+            }*/
+            //}
+        }
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.Y)) //detach
+        {
+            for (var i = this.grabbedObject.transform.childCount - 1; i >= 0; i--)
+            {
+                var ObjectA = this.grabbedObject.transform.GetChild(i);
+                ObjectA.GetComponent<Snapping>().attach = false;
+            }
+            for (var i = this.grabbedObject.transform.childCount - 1; i >= 0; i--)
+            {
+                var ObjectA = this.grabbedObject.transform.GetChild(i);
+                ObjectA.GetComponent<Snapping>().JointUsed = false;
+            }
+            this.grabbedObject.transform.SetParent(null);
+        }
     }
 
     private void manipulateObject_Exit()

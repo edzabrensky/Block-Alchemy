@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Snapping : MonoBehaviour
 {
-    bool attach = true;
+    public bool attach = false;
     GameObject obj;
     GameObject parent;
     Vector3 offset;
@@ -20,8 +20,11 @@ public class Snapping : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        other.gameObject.GetComponent<SphereCollider>().isTrigger = false;
-        GetComponent<SphereCollider>().isTrigger = true;
+        if(attach)
+        {
+            other.gameObject.GetComponent<SphereCollider>().isTrigger = false;
+            GetComponent<SphereCollider>().isTrigger = true;
+        }
 
         //Debug.Log("entered!");*/
     }
@@ -98,11 +101,7 @@ public class Snapping : MonoBehaviour
     void Update()
     {
         if(found && JointUsed)
-        //if (JointUsed)
         {
-            //center = transform.position;
-            //obj.transform.parent.transform.SetPositionAndRotation(center + new Vector3(0f,0f,-.5f), obj.transform.rotation);
-            //center = validPos();
 
             Vector3 offset = center- transform.parent.position + dist;
             //Debug.Log(offset);
