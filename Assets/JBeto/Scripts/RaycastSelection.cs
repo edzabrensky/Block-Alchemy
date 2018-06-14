@@ -8,7 +8,11 @@ using MonsterLove.StateMachine;
 public class RaycastSelection : MonoBehaviour
 {
     public float rotationSpeed, moveSpeed;
+
+    // MANDATORY
     public Energy energy;
+    public SaveTemplate saver;
+
     private LineRenderer line;
     //public OVRPlayerController player;
     private Transform grabbedObject;
@@ -123,10 +127,17 @@ public class RaycastSelection : MonoBehaviour
             OhSnap snap = Utility.GetSafeComponent<OhSnap>(grabbedObject);
             snap.BreakJoints();
         }
+        // ADDED
         if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) && !isEnergyOn)
         {
             energy.StoreEnergy(this.grabbedObject.GetComponent<Rigidbody>());
             isEnergyOn = true;
+        }
+        if (OVRInput.GetDown(OVRInput.Button.One))
+        {
+            GameObject empty = new GameObject();
+            grabbedObject.SetParent(empty.transform);
+            saver.CreateTemplate(empty);
         }
         
         // Sets the line

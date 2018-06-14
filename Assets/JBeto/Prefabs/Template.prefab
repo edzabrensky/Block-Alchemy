@@ -67,6 +67,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1849d335baabac4592e0b718b916f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instance: {fileID: 114169365618216124, guid: 50c55bebe77d02741b276e240b444564, type: 2}
+  playerPosition: {fileID: 0}
 --- !u!222 &222725329222459016
 CanvasRenderer:
   m_ObjectHideFlags: 1

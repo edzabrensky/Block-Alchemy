@@ -9,12 +9,12 @@ public class Template : MonoBehaviour
     private TemplateInstance instance;
     private Sprite thumbnail;
     private GameObject creation;
-    [SerializeField]
     private Transform playerPosition;
     private Image image;
     
     private void Awake()
     {
+        playerPosition = FindObjectOfType<OVRPlayerController>().transform;
         this.image = GetComponent<Image>();
     }
 
