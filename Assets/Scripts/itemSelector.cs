@@ -64,7 +64,7 @@ public class itemSelector : MonoBehaviour
             {
                 //Debug.Log("hit Object");
                 this.line.SetPosition(1, hit.point);
-                if (OVRInput.GetDown(OVRInput.Button.Four) || Input.GetKey(KeyCode.Q))
+                if (OVRInput.GetDown(OVRInput.Button.One) || Input.GetKey(KeyCode.Q))
                     hit.transform.gameObject.GetComponent<ApplyForce>().updateForce();
                 if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetKeyDown(KeyCode.C))
                 {
@@ -77,6 +77,8 @@ public class itemSelector : MonoBehaviour
                         this.grabbedObject = hit.transform.parent.transform;
                     }*/
                     Debug.Log(this.grabbedObject);
+                    this.grabbedObject.position = transform.position + transform.TransformDirection(Vector3.forward) * Vector3.Distance(transform.position, this.grabbedObject.transform.position);
+
                     fsm.ChangeState(RaycastStates.GrabbedObject);
                 }
             }
@@ -91,7 +93,6 @@ public class itemSelector : MonoBehaviour
     private void GrabbedObject_Enter()
     {
         // Set initial position
-        this.grabbedObject.position = transform.position + transform.TransformDirection(Vector3.forward) * Vector3.Distance(transform.position, this.grabbedObject.transform.position);
         this.grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
         this.grabbedObject.parent = transform;
     }
@@ -110,12 +111,16 @@ public class itemSelector : MonoBehaviour
         if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger) || Input.GetKeyDown(KeyCode.T)) //attach
         {
             if(this.grabbedObject.GetComponent<AttachCollision>().Collided != null)
+            {
                 this.grabbedObject.gameObject.AddComponent<FixedJoint>().connectedBody = this.grabbedObject.GetComponent<AttachCollision>().Collided;
+                this.grabbedObject.GetComponent<FixedJoint>().breakForce = 10000;
+            }
+               
            
         }
         if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) || Input.GetKeyDown(KeyCode.Y)) //detach
         {
-
+            
             if (this.grabbedObject.GetComponent<FixedJoint>() != null)
                 Destroy(this.grabbedObject.GetComponent<FixedJoint>());
         }
@@ -144,6 +149,25 @@ public class itemSelector : MonoBehaviour
         // Sets the line
         this.line.SetPosition(0, transform.position);
         this.line.SetPosition(1, this.grabbedObject.position);
+
+
+        //if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger) || Input.GetKeyDown(KeyCode.T)) //attach
+        //{
+        //    if(this.grabbedObject.GetComponent<AttachCollision>().Collided != null)
+        //    {
+        //        this.grabbedObject.gameObject.AddComponent<FixedJoint>().connectedBody = this.grabbedObject.GetComponent<AttachCollision>().Collided;
+        //        this.grabbedObject.GetComponent<FixedJoint>().breakForce = 500;
+        //    }
+               
+           
+        //}
+        //if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger) || Input.GetKeyDown(KeyCode.Y)) //detach
+        //{
+            
+        //    if (this.grabbedObject.GetComponent<FixedJoint>() != null)
+        //        Destroy(this.grabbedObject.GetComponent<FixedJoint>());
+        //}
+
         // Position
         if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickUp) || Input.GetKey(KeyCode.UpArrow))
             this.grabbedObject.transform.position += transform.TransformDirection(Vector3.up) * moveSpeed;
@@ -154,8 +178,8 @@ public class itemSelector : MonoBehaviour
             this.grabbedObject.transform.position += transform.TransformDirection(Vector3.left) * moveSpeed;
         if (OVRInput.Get(OVRInput.Button.PrimaryThumbstickRight) || Input.GetKey(KeyCode.RightArrow))
             this.grabbedObject.transform.position += transform.TransformDirection(Vector3.right) * moveSpeed;
-        //if (OVRInput.Get(OVRInput.Button.Four) || Input.GetKey(KeyCode.Q))
-        //    this.grabbedObject.transform.position += transform.TransformDirection(Vector3.forward) * moveSpeed;
+        if (OVRInput.Get(OVRInput.Button.Four) || Input.GetKey(KeyCode.Q))
+            this.grabbedObject.transform.position += transform.TransformDirection(Vector3.forward) * moveSpeed;
         if (OVRInput.Get(OVRInput.Button.Three) || Input.GetKey(KeyCode.E))
             this.grabbedObject.transform.position += transform.TransformDirection(Vector3.back) * moveSpeed;
 
